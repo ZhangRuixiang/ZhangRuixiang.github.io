@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="设计原则IOS设计模式的六大设计原则之开放-关闭原则(OCP,Open-Close Principle)  观察者（Observer）模式  观察者模式包含：  通知机制（notification） KVO机制  通知机制（notification）委托机制是代理“一对一”的对象之间的通信，而通知机制是广播“一对多”的对象之间的通信；使用步骤： 1234567891011// 通知名NSStrin">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://yoursite.com/2017/06/25/设计模式/index.html">
+<meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
+<meta property="og:description" content="设计原则IOS设计模式的六大设计原则之开放-关闭原则(OCP,Open-Close Principle)  观察者（Observer）模式  观察者模式包含：  通知机制（notification） KVO机制  通知机制（notification）委托机制是代理“一对一”的对象之间的通信，而通知机制是广播“一对多”的对象之间的通信；使用步骤： 1234567891011// 通知名NSStrin">
+<meta property="og:updated_time" content="2017-06-25T13:00:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式">
+<meta name="twitter:description" content="设计原则IOS设计模式的六大设计原则之开放-关闭原则(OCP,Open-Close Principle)  观察者（Observer）模式  观察者模式包含：  通知机制（notification） KVO机制  通知机制（notification）委托机制是代理“一对一”的对象之间的通信，而通知机制是广播“一对多”的对象之间的通信；使用步骤： 1234567891011// 通知名NSStrin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/25/设计模式/"/>
+
+
+
+
+
+  <title>设计模式 | ZhangRuixiang's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZhangRuixiang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/设计模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangRuixiang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://zhangruixiang.github.io/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangRuixiang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T20:57:38+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h1><p><a href="http://www.cnblogs.com/eagle927183/p/3455180.html" target="_blank" rel="external">IOS设计模式的六大设计原则之开放-关闭原则(OCP,Open-Close Principle)</a></p>
+<blockquote>
+<p>观察者（Observer）模式</p>
+</blockquote>
+<p>观察者模式包含：</p>
+<ul>
+<li>通知机制（notification）</li>
+<li>KVO机制</li>
+</ul>
+<h1 id="通知机制（notification）"><a href="#通知机制（notification）" class="headerlink" title="通知机制（notification）"></a>通知机制（notification）</h1><p>委托机制是代理“一对一”的对象之间的通信，而通知机制是广播“一对多”的对象之间的通信；<br><strong>使用步骤</strong>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通知名</span></div><div class="line"><span class="built_in">NSString</span> *<span class="keyword">const</span> notificationName = <span class="string">@"testName"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 发送通知</span></div><div class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:notificationName object:<span class="literal">nil</span>];</div><div class="line"></div><div class="line"><span class="comment">// 注册通知，加入观察者</span></div><div class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSomethong) name:notificationName object:<span class="literal">nil</span>];</div><div class="line">   </div><div class="line"><span class="comment">// 移除观察者</span></div><div class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];</div></pre></td></tr></table></figure>
+<h1 id="KVO机制"><a href="#KVO机制" class="headerlink" title="KVO机制"></a>KVO机制</h1><p><strong>使用步骤</strong>：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">// 添加观察者</span></div><div class="line">    [<span class="keyword">self</span>.jack addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"name"</span> options:<span class="built_in">NSKeyValueObservingOptionOld</span>|<span class="built_in">NSKeyValueObservingOptionNew</span> context:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">1</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</div><div class="line">        <span class="keyword">self</span>.jack.name = <span class="string">@"Tom"</span>;</div><div class="line">    &#125;);</div><div class="line"><span class="comment">// 属性(keyPath)的值发生变化时，收到通知，调用以下方法</span></div><div class="line">- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSKeyValueChangeKey</span>,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> ([keyPath isEqualToString:<span class="string">@"name"</span>] &amp;&amp; object == <span class="keyword">self</span>.jack) &#123;</div><div class="line">        </div><div class="line">        <span class="comment">//change的使用：上文注册时，枚举为2个，因此可以提取change字典中的新、旧值的这两个方法</span></div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"old:%@ new:%@"</span>,[change valueForKey:<span class="string">@"old"</span>],</div><div class="line">              [change valueForKey:<span class="string">@"new"</span>]);</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>参考<br><a href="http://www.jianshu.com/p/ebd1953a655d" target="_blank" rel="external">iOS 趣谈设计模式——通知</a></p>
+<blockquote>
+<p>单例</p>
+</blockquote>
+<p>应用场景：确保程序运行期某个类，只有一份实例，用于进行资源共享控制。</p>
+<p>优势：使用简单，延时求值，易于跨模块</p>
+<p>敏捷原则：单一职责原则</p>
+<blockquote>
+<p>MVC</p>
+</blockquote>
+<p>应用场景：是一中非常古老的设计模式，通过数据模型，控制器逻辑，视图展示将应用程序进行逻辑划分。</p>
+<p>优势：使系统，层次清晰，职责分明，易于维护</p>
+<blockquote>
+<p>代理模式</p>
+</blockquote>
+<p>应用场景：当一个类的某些功能需要由别的类来实现，但是又不确定具体会是哪个类实现。</p>
+<p>优势：解耦合</p>
+<blockquote>
+<p>工厂模式</p>
+</blockquote>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p><strong>工厂</strong>（比如，OperationFactory）<br><strong>抽象产品</strong>（比如，Operation）<br><strong>具体产品</strong>（比如，OperationAdd）</p>
+<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><p><strong>定义</strong>：“专门定义一个类来负责创建其他类的实例，被创建的实例常常具有共同的父类。</p>
+<p>　　实际上就是由一个工厂类，根据传入的参数，动态的决定创建出哪一个产品类的实例。<br><strong>角色</strong>：<br>1.工厂类角色（比如，OperationFactory）：简单工厂模式的核心，负责根据传入的参数来实例化具体的产品实例。</p>
+<p>2.抽象产品角色（比如，Operation）：通常是工厂产生具体类的父类(或者是具体类实现的接口)。</p>
+<p>3.具体产品角色（比如，OperationAdd）：简单工厂模式所创建的任何对象都是这个角色的实例。</p>
+<p><strong>流程</strong>：工厂类，产生具体的产品实例（继承自基类，并重写基类的方法），使用这个产品实例，调用重写的基类的方法，完成需求。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Operation* oper;</div><div class="line">oper = [OperationFactory createOperate:<span class="keyword">self</span>.operationTextField.text];</div><div class="line">oper.firstNum = [strFirstNum doubleValue];</div><div class="line">oper.secondNum = [strSecondNum doubleValue];</div><div class="line"><span class="keyword">self</span>.resultTextField.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>,[oper getResult]];</div></pre></td></tr></table></figure></p>
+<p>优点：低耦合，每个类负责单独的功能</p>
+<h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><p><strong>定义</strong>：“定义创建对象的接口，让子类决定实例化哪一个类。工厂方法使得一个类的实例化延迟到其子类。”</p>
+<p><strong>流程</strong>：根据需求，创建不同的工厂（继承自基类），不同的工厂创建不同的操作类（继承自基类），使用这个操作类，调用基类的方法，完成需求。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">FactoryBase* facBase;</div><div class="line"><span class="keyword">if</span> ([strOperation isEqualToString:<span class="string">@"+"</span>]) &#123;</div><div class="line">    facBase = [[AddFactoy alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"-"</span>])&#123;</div><div class="line">    facBase = [[SubFactory alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"*"</span>])&#123;</div><div class="line">    facBase = [[MulFactory alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"/"</span>])&#123;</div><div class="line">    facBase = [[DivFactory alloc] init];</div><div class="line">&#125;    </div><div class="line">Operation* oper;</div><div class="line">oper = [facBase createOperate];</div><div class="line">oper.firstNum = [strFirstNum doubleValue];</div><div class="line">oper.secondNum = [strSecondNum doubleValue];</div><div class="line"><span class="keyword">self</span>.resultTextField.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>,[oper getResult]];</div></pre></td></tr></table></figure>
+<h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1><p><strong>定义</strong>：“定义创建对象的接口，让子类决定实例化哪一个类。工厂方法使得一个类的实例化延迟到其子类。”</p>
+<p>一个工厂，通常不能只产一种产品，可能需要产出一系列产品，这时就需要使用抽象工厂<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// id&lt;AbstractFactory&gt; factory = [[HTML5Factory alloc] init];</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractFactory&gt; factory = [[OWCFactory alloc] init];</div><div class="line"></div><div class="line"><span class="comment">// 产品1</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractLine&gt; line = [factory createLine];</div><div class="line"></div><div class="line"><span class="comment">// 产品2</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractPie&gt; pie = [factory createPie];</div><div class="line"></div><div class="line">[line drawLine];</div><div class="line">[pie drawPie];</div></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.jianshu.com/p/dfddc7739bd3" target="_blank" rel="external">iOS常用的设计模式</a><br><a href="https://github.com/skyming/Trip-to-iOS-Design-Patterns" target="_blank" rel="external">GitHub上的整理的设计模式大全</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/25/Block-基础和-block/" rel="next" title="Block 基础和 __block">
+                <i class="fa fa-chevron-left"></i> Block 基础和 __block
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/设计模式之工厂模式/" rel="prev" title="设计模式之工厂模式">
+                设计模式之工厂模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://zhangruixiang.github.io/uploads/avatar.jpeg"
+               alt="ZhangRuixiang" />
+          <p class="site-author-name" itemprop="name">ZhangRuixiang</p>
+           
+              <p class="site-description motion-element" itemprop="description">不为浮尘易匠心</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计原则"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通知机制（notification）"><span class="nav-number">2.</span> <span class="nav-text">通知机制（notification）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KVO机制"><span class="nav-number">3.</span> <span class="nav-text">KVO机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">4.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单工厂"><span class="nav-number">5.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂方法"><span class="nav-number">6.</span> <span class="nav-text">工厂方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象工厂"><span class="nav-number">7.</span> <span class="nav-text">抽象工厂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangRuixiang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
