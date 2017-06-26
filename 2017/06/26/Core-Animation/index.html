@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="应用场景当我们无法列出传递函数的所有实参的数目时,可以用省略号指定参数表 12例如后面的...：- (instancetype)initWithTitle:( NSString *)title message:( NSString *)message delegate:( id )delegate cancelButtonTitle:( NSString *)cancelButtonTitle o">
+<meta name="description" content="基础CALayer有人说UIView就像一个画板，而layer就像画布，一个画板上可以有很多块画布，但是画布不能有画板。 当利用drawRect:方法绘图的本质就是绘制到了UIView的layer（属性）中 三维坐标系：视角垂直与屏幕而言，x轴向右，y轴向下，z轴垂直屏幕向外。和UIView严格的二维坐标系不同，CALayer存在于一个三维空间当中。 在CALayer中很少使用frame属性，因为">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="va_start和va_end的使用及原理">
-<meta property="og:url" content="http://yoursite.com/2017/06/23/va-start和va-end的使用及原理/index.html">
+<meta property="og:title" content="Core Animation ">
+<meta property="og:url" content="http://yoursite.com/2017/06/26/Core-Animation/index.html">
 <meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
-<meta property="og:description" content="应用场景当我们无法列出传递函数的所有实参的数目时,可以用省略号指定参数表 12例如后面的...：- (instancetype)initWithTitle:( NSString *)title message:( NSString *)message delegate:( id )delegate cancelButtonTitle:( NSString *)cancelButtonTitle o">
-<meta property="og:updated_time" content="2017-06-25T12:55:24.000Z">
+<meta property="og:description" content="基础CALayer有人说UIView就像一个画板，而layer就像画布，一个画板上可以有很多块画布，但是画布不能有画板。 当利用drawRect:方法绘图的本质就是绘制到了UIView的layer（属性）中 三维坐标系：视角垂直与屏幕而言，x轴向右，y轴向下，z轴垂直屏幕向外。和UIView严格的二维坐标系不同，CALayer存在于一个三维空间当中。 在CALayer中很少使用frame属性，因为">
+<meta property="og:updated_time" content="2017-06-26T03:11:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="va_start和va_end的使用及原理">
-<meta name="twitter:description" content="应用场景当我们无法列出传递函数的所有实参的数目时,可以用省略号指定参数表 12例如后面的...：- (instancetype)initWithTitle:( NSString *)title message:( NSString *)message delegate:( id )delegate cancelButtonTitle:( NSString *)cancelButtonTitle o">
+<meta name="twitter:title" content="Core Animation ">
+<meta name="twitter:description" content="基础CALayer有人说UIView就像一个画板，而layer就像画布，一个画板上可以有很多块画布，但是画布不能有画板。 当利用drawRect:方法绘图的本质就是绘制到了UIView的layer（属性）中 三维坐标系：视角垂直与屏幕而言，x轴向右，y轴向下，z轴垂直屏幕向外。和UIView严格的二维坐标系不同，CALayer存在于一个三维空间当中。 在CALayer中很少使用frame属性，因为">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/23/va-start和va-end的使用及原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/26/Core-Animation/"/>
 
 
 
 
 
-  <title>va_start和va_end的使用及原理 | ZhangRuixiang's Blog</title>
+  <title>Core Animation  | ZhangRuixiang's Blog</title>
   
 
 
@@ -256,7 +256,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/23/va-start和va-end的使用及原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/Core-Animation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangRuixiang">
@@ -273,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">va_start和va_end的使用及原理</h1>
+          <h1 class="post-title" itemprop="name headline">Core Animation </h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-23T12:47:57+08:00">
-                2017-06-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T11:09:10+08:00">
+                2017-06-26
               </time>
             
 
@@ -320,19 +320,12 @@
       
 
       
-        <h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><p>当我们无法列出传递函数的所有实参的数目时,可以用省略号指定参数表</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">例如后面的...：</div><div class="line">- (<span class="keyword">instancetype</span>)initWithTitle:( <span class="built_in">NSString</span> *)title message:( <span class="built_in">NSString</span> *)message delegate:( <span class="keyword">id</span> )delegate cancelButtonTitle:( <span class="built_in">NSString</span> *)cancelButtonTitle otherButtonTitles:( <span class="built_in">NSString</span> *)otherButtonTitles, ...;</div></pre></td></tr></table></figure>
-<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>void func(int x, float y, char z);<br>调用函数的时候，实参 char z 先进栈，然后是 float y，最后是 int x，因此在内存中变量的存放次序是 x-&gt;y-&gt;z，因此，从理论上说，我们只要探测到任意一个变量的地址，并且知道其他变量的类型，通过指针移位运算，则总可以顺藤摸瓜找到其他的输入变量。</p>
-<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><h6 id="下面是-里面重要的几个宏定义："><a href="#下面是-里面重要的几个宏定义：" class="headerlink" title="下面是  里面重要的几个宏定义："></a>下面是 <stdarg.h> 里面重要的几个宏定义：</stdarg.h></h6><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">va_start(ap, param)</div><div class="line">va_arg(ap, type)</div><div class="line">va_end(ap)</div></pre></td></tr></table></figure>
-<h6 id="使用步骤："><a href="#使用步骤：" class="headerlink" title="使用步骤："></a>使用步骤：</h6><ol>
-<li>在调用参数表之前，定义一个 va_list 类型的变量，(假设va_list 类型变量被定义为ap)；</li>
-<li>然后应该对ap 进行初始化，让它指向可变参数表里面的第一个参数，这是通过 va_start 来实现的，第一个参数是 ap 本身，第二个参数是在变参表前面紧挨着的一个变量,即“…”之前的那个参数；</li>
-<li>然后是获取参数，调用va_arg，它的第一个参数是ap，第二个参数是要获取的参数的指定类型，然后返回这个指定类型的值，并且把 ap 的位置指向变参表的下一个变量位置；</li>
-<li>获取所有的参数之后，我们有必要将这个 ap 指针关掉。</li>
-</ol>
-<h6 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *eachItem = otherButtonTitles;;</div><div class="line">va_list argumentList ;</div><div class="line">va_start(argumentList, otherButtonTitles);  <span class="comment">// argumentList不包含otherButtonTitles</span></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">    <span class="keyword">if</span> (eachItem) &#123;</div><div class="line">      [_otherButtonTitles addObject:eachItem];</div><div class="line">    &#125;</div><div class="line">   &#125; <span class="keyword">while</span> ((eachItem = va_arg(argumentList, <span class="built_in">NSString</span> *)));</div><div class="line"> va_end(argumentList);</div></pre></td></tr></table></figure>
-<p>这个知识点在我封装的一个RRRAlertView中用到<a href="https://github.com/ZhangRuixiang/RRRAlertView" target="_blank" rel="external">https://github.com/ZhangRuixiang/RRRAlertView</a> ，上面的代码片段也是摘自RRRAlertView</p>
-
+        <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h2><p>有人说UIView就像一个画板，而layer就像画布，一个画板上可以有很多块画布，但是画布不能有画板。</p>
+<p>当利用drawRect:方法绘图的本质就是绘制到了UIView的layer（属性）中</p>
+<p>三维坐标系：视角垂直与屏幕而言，x轴向右，y轴向下，z轴垂直屏幕向外。和UIView严格的二维坐标系不同，CALayer存在于一个三维空间当中。</p>
+<p>在CALayer中很少使用frame属性，因为frame本身不支持动画效果，通常使用bounds和position代替。CALayer中透明度使用opacity表示而不是alpha；中心点使用position表示而不是center。</p>
+<h1 id="简单动画（UIView-Animation）"><a href="#简单动画（UIView-Animation）" class="headerlink" title="简单动画（UIView Animation）"></a>简单动画（UIView Animation）</h1><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[<span class="built_in">UIView</span> animateWithDuration:<span class="number">2.0</span> animations:^&#123;</div><div class="line">    myView.frame = <span class="built_in">CGRectMake</span>(<span class="number">50</span>, <span class="number">200</span>, <span class="number">200</span>, <span class="number">200</span>);</div><div class="line">    myView.backgroundColor = [<span class="built_in">UIColor</span> blueColor];</div><div class="line">    myView.alpha = <span class="number">0.7</span>;</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<h1 id="CALayer-动画（CALayer-Animation）"><a href="#CALayer-动画（CALayer-Animation）" class="headerlink" title="CALayer 动画（CALayer Animation）"></a>CALayer 动画（CALayer Animation）</h1><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用CABasicAnimation创建基础动画</span></div><div class="line"><span class="built_in">CABasicAnimation</span> *anima = [<span class="built_in">CABasicAnimation</span> animationWithKeyPath:<span class="string">@"position"</span>];</div><div class="line"></div><div class="line"></div><div class="line">anima.fromValue = [<span class="built_in">NSValue</span> valueWithCGPoint:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, SCREEN_HEIGHT/<span class="number">2</span><span class="number">-75</span>)];</div><div class="line">anima.toValue = [<span class="built_in">NSValue</span> valueWithCGPoint:<span class="built_in">CGPointMake</span>(SCREEN_WIDTH, SCREEN_HEIGHT/<span class="number">2</span><span class="number">-75</span>)];</div><div class="line">anima.duration = <span class="number">1.0</span>f;</div><div class="line"><span class="comment">//如果fillMode=kCAFillModeForwards和removedOnComletion=NO，那么在动画执行完毕后，图层会保持显示动画执行后的状态。但在实质上，图层的属性值还是动画执行前的初始值，并没有真正被改变。</span></div><div class="line"><span class="comment">//anima.fillMode = kCAFillModeForwards;</span></div><div class="line"><span class="comment">//anima.removedOnCompletion = NO;</span></div><div class="line">anima.timingFunction = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseIn];</div><div class="line">[_demoView.layer addAnimation:anima forKey:<span class="string">@"positionAnimationKey"</span>];</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -374,8 +367,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/22/iOS持久化方案/" rel="next" title="iOS持久化方案">
-                <i class="fa fa-chevron-left"></i> iOS持久化方案
+              <a href="/2017/06/25/iOS高精度数值计算/" rel="next" title="iOS高精度数值计算">
+                <i class="fa fa-chevron-left"></i> iOS高精度数值计算
               </a>
             
           </div>
@@ -383,10 +376,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/25/Block-传值/" rel="prev" title="Block 传值">
-                Block 传值 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -506,7 +495,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方法"><span class="nav-number">3.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#下面是-里面重要的几个宏定义："><span class="nav-number">3.0.1.</span> <span class="nav-text">下面是  里面重要的几个宏定义：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#使用步骤："><span class="nav-number">3.0.2.</span> <span class="nav-text">使用步骤：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实例"><span class="nav-number">3.0.3.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CALayer"><span class="nav-number">1.1.</span> <span class="nav-text">CALayer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单动画（UIView-Animation）"><span class="nav-number">2.</span> <span class="nav-text">简单动画（UIView Animation）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CALayer-动画（CALayer-Animation）"><span class="nav-number">3.</span> <span class="nav-text">CALayer 动画（CALayer Animation）</span></a></li></ol></div>
             
 
           </div>

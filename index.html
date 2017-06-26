@@ -256,6 +256,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/Core-Animation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangRuixiang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://zhangruixiang.github.io/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangRuixiang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/Core-Animation/" itemprop="url">Core Animation </a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T11:09:10+08:00">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          基础CALayer有人说UIView就像一个画板，而layer就像画布，一个画板上可以有很多块画布，但是画布不能有画板。
+当利用drawRect:方法绘图的本质就是绘制到了UIView的layer（属性）中
+三维坐标系：视角垂直与屏幕而言，x轴向右，y轴向下，z轴垂直屏幕向外。和UIView严格的二维坐标系不同，CALayer存在于一个三维空间当中。
+在CALayer中很少使用frame属性，因为frame本身不支持动画效果，通常使用bounds和position代替。CALayer中透明度使用
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/26/Core-Animation/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/iOS高精度数值计算/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -328,7 +449,7 @@
 
 初始化
 
-1234567891011121314151617- (instancetype)initWithMantissa:(uns
+1234567891011121314151617- (instancetype)initWithMantissa:(unsigned long long)mantissa exponent:(short)exponent isNegative:(BOOL)flag;- (instancetype)initWithDeci
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -448,7 +569,7 @@
           
           概念两个对象相互持有，这样就会造成循环引用，如下图所示
 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。
-123456__block __weak __typeof(_currentModel) weakModel = _currentMod
+123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(id model) &#123;  // 假设要更新model  weakModel = model
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -568,7 +689,8 @@
           
           概念工厂（比如，OperationFactory）抽象产品（比如，Operation）具体产品（比如，OperationAdd）
 简单工厂定义：“专门定义一个类来负责创建其他类的实例，被创建的实例常常具有共同的父类。
-　　实际上就是由一个工厂类，根据传入的参数，动态的决定创建出哪一个产品类的实例。角
+　　实际上就是由一个工厂类，根据传入的参数，动态的决定创建出哪一个产品类的实例。角色：1.工厂类角色（比如，OperationFactory）：简单工厂模式的核心，负责根据传入的参数来实例化具体的产品实例。
+2.抽象产品角色（比如，Operation）：通常是工厂产生具体类的父类(
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -695,7 +817,8 @@
 通知机制（notification）
 KVO机制
 
-通知机制（notification）委托机制是代理“一对一”的对象之间的通信，而通知机
+通知机制（notification）委托机制是代理“一对一”的对象之间的通信，而通知机制是广播“一对多”的对象之间的通信；使用步骤：
+1234567891011// 通知名NSString *const notificationName = @"testName";// 发送通知[[N
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -815,7 +938,9 @@ KVO机制
           
           开始使用 Blocks基础定义格式
 Objective C对象内存模型block背后的内存模型实际上是一个结构体，这个结构体会存储一个函数指针来指向block的实际执行代码。
-查看类的结构1234struct DemoClass_IMPL &#123;	struct NSObject_IMPL NS
+查看类的结构1234struct DemoClass_IMPL &#123;	struct NSObject_IMPL NSObject_IVARS;	NSString *_value;&#125;;
+查看 NSObject_IMPL
+123struct NSObject_IMPL &#123;	Class isa;&#1
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -940,7 +1065,7 @@ Objective C对象内存模型block背后的内存模型实际上是一个结构�
 在B实例中，实现block，获取到值
 
 .h文件
-1234567891011// 定义 block 的形式typedef void (^GetNameBlock)(NSString *name);@interface Son : F
+1234567891011// 定义 block 的形式typedef void (^GetNameBlock)(NSString *name);@interface Son : Father@property (nonatomic, copy) GetNameBlock aBlock;- (void)dothing;- (void)getValue:(GetNameBlock)
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1059,7 +1184,7 @@ Objective C对象内存模型block背后的内存模型实际上是一个结构�
         
           
           应用场景当我们无法列出传递函数的所有实参的数目时,可以用省略号指定参数表
-12例如后面的...：- (instancetype)initWithTitle:( NSString *)title message:( NSString *)message delegate:( id )delegate 
+12例如后面的...：- (instancetype)initWithTitle:( NSString *)title message:( NSString *)message delegate:( id )delegate cancelButtonTitle:( NSString *)cancelButtonTitle otherButtonTitles:( NSString *)otherButtonTitles, .
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1180,7 +1305,7 @@ Objective C对象内存模型block背后的内存模型实际上是一个结构�
           iOS常用的数据持久化方案主要有四种：NSUserDefault、File、Keychain、FMDB。
 NSUserDefaultsmodel
 student.h
-1234567891011#import &lt;Foundation/Foundation.h&gt;@interface stud
+1234567891011#import &lt;Foundation/Foundation.h&gt;@interface student : NSObject &lt;NSCoding&gt;@property (nonatomic, strong) NSNumber *number;@property (nonatomic, 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1298,7 +1423,9 @@ student.h
       
         
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new "My New Post"
+M
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1384,7 +1511,7 @@ student.h
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
