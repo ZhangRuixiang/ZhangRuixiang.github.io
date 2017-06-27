@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/27/Block-之本质/index.html">
 <meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
 <meta property="og:description" content="Objective C对象内存模型block背后的内存模型实际上是一个结构体，这个结构体会存储一个函数指针来指向block的实际执行代码。 查看类的结构1234struct DemoClass_IMPL &amp;#123;	struct NSObject_IMPL NSObject_IVARS;	NSString *_value;&amp;#125;; 查看 NSObject_IMPL 123struct NS">
-<meta property="og:updated_time" content="2017-06-27T06:33:37.000Z">
+<meta property="og:updated_time" content="2017-06-27T09:56:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block 之本质">
 <meta name="twitter:description" content="Objective C对象内存模型block背后的内存模型实际上是一个结构体，这个结构体会存储一个函数指针来指向block的实际执行代码。 查看类的结构1234struct DemoClass_IMPL &amp;#123;	struct NSObject_IMPL NSObject_IVARS;	NSString *_value;&amp;#125;; 查看 NSObject_IMPL 123struct NS">
@@ -353,7 +353,7 @@
 <h4 id="在block中修改变量"><a href="#在block中修改变量" class="headerlink" title="在block中修改变量"></a>在block中修改变量</h4><p>如果希望在block中修改变量，可以考虑下面两种方法：<br>1.对于希望在block中修改的外界局部对象，我们可以给这些变量加上 <code>__block</code> 关键字修饰，这样就能在block中修改这些变量。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">__block <span class="keyword">int</span> multiplier = <span class="number">7</span>;</div><div class="line">   <span class="keyword">int</span> (^myBlock)(<span class="keyword">int</span>) = ^(<span class="keyword">int</span> num) &#123;</div><div class="line">       </div><div class="line">       multiplier ++;</div><div class="line">       <span class="keyword">return</span> num * multiplier;</div><div class="line">   &#125;;</div><div class="line">   </div><div class="line">   myBlock(<span class="number">2</span>);</div></pre></td></tr></table></figure>
 <p>2.使用实例变量，实例变量是可以修改的，实例内的变量横行于整个实例内</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Blocks/Articles/bxGettingStarted.html#//apple_ref/doc/uid/TP40007502-CH7-SW1" target="_blank" rel="external">官方文档</a><br><a href="https://onevcat.com/2011/11/objc-block/" target="_blank" rel="external">Objective-C中的Block</a><br><a href="http://www.jianshu.com/p/29d70274374b" target="_blank" rel="external">iOS开发-由浅至深学习block</a></p>
+<p>参考<br><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Blocks/Articles/bxGettingStarted.html#//apple_ref/doc/uid/TP40007502-CH7-SW1" target="_blank" rel="external">官方文档</a><br><a href="https://onevcat.com/2011/11/objc-block/" target="_blank" rel="external">Objective-C中的Block</a><br><a href="http://www.jianshu.com/p/29d70274374b" target="_blank" rel="external">iOS开发-由浅至深学习block</a></p>
 
       
     </div>
@@ -489,7 +489,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -524,7 +524,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Objective-C对象内存模型"><span class="nav-number">1.</span> <span class="nav-text">Objective C对象内存模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block-的本质"><span class="nav-number">2.</span> <span class="nav-text">block 的本质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存中的储存区域划分"><span class="nav-number">3.</span> <span class="nav-text">内存中的储存区域划分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Block的类型"><span class="nav-number">4.</span> <span class="nav-text">Block的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明和使用-Block"><span class="nav-number">4.1.</span> <span class="nav-text">声明和使用 Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接使用-Block"><span class="nav-number">4.2.</span> <span class="nav-text">直接使用 Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block-变量"><span class="nav-number">4.3.</span> <span class="nav-text">__block 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在block中使用block外的变量"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">在block中使用block外的变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在block中修改变量"><span class="nav-number">4.3.0.2.</span> <span class="nav-text">在block中修改变量</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Objective-C对象内存模型"><span class="nav-number">1.</span> <span class="nav-text">Objective C对象内存模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block-的本质"><span class="nav-number">2.</span> <span class="nav-text">block 的本质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存中的储存区域划分"><span class="nav-number">3.</span> <span class="nav-text">内存中的储存区域划分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Block的类型"><span class="nav-number">4.</span> <span class="nav-text">Block的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明和使用-Block"><span class="nav-number">4.1.</span> <span class="nav-text">声明和使用 Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接使用-Block"><span class="nav-number">4.2.</span> <span class="nav-text">直接使用 Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block-变量"><span class="nav-number">4.3.</span> <span class="nav-text">__block 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在block中使用block外的变量"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">在block中使用block外的变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在block中修改变量"><span class="nav-number">4.3.0.2.</span> <span class="nav-text">在block中修改变量</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

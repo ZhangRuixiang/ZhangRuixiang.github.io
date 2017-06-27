@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
 <meta property="og:description" content="概念两个对象相互持有，这样就会造成循环引用，如下图所示 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。 123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/809937-71bdfcd1fcd90ab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-06-25T13:04:38.000Z">
+<meta property="og:updated_time" content="2017-06-27T09:58:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="循环引用">
 <meta name="twitter:description" content="概念两个对象相互持有，这样就会造成循环引用，如下图所示 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。 123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(">
@@ -327,7 +327,7 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">__block __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(_currentModel) weakModel = _currentModel;</div><div class="line"><span class="keyword">self</span>.aView = [[HYBAView alloc] initWithBlock:^(<span class="keyword">id</span> model) &#123;</div><div class="line">  <span class="comment">// 假设要更新model</span></div><div class="line">  weakModel = model;</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
 <p><strong>疑惑</strong>：<code>_currentModel</code> 本身就是实例变量，这里为什么还要加上<code>__block</code> ？</p>
 <p><strong>猜测</strong>：<code>__typeof</code>之后，编译器无法识别weakModel是否是实例变量，编译器把它当做是局部变量了，所以要加上 <code>__block</code></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.jianshu.com/p/492be28d63c4" target="_blank" rel="external">iOS中block的循环引用问题</a></p>
+<p>参考<br><a href="http://www.jianshu.com/p/492be28d63c4" target="_blank" rel="external">iOS中block的循环引用问题</a></p>
 
       
     </div>
@@ -467,7 +467,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -502,7 +502,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">2.</span> <span class="nav-text">注意</span></a></li></ol></div>
             
 
           </div>

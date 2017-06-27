@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/设计模式之工厂模式/index.html">
 <meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
 <meta property="og:description" content="概念工厂（比如，OperationFactory）抽象产品（比如，Operation）具体产品（比如，OperationAdd） 简单工厂定义：“专门定义一个类来负责创建其他类的实例，被创建的实例常常具有共同的父类。 　　实际上就是由一个工厂类，根据传入的参数，动态的决定创建出哪一个产品类的实例。角色：1.工厂类角色（比如，OperationFactory）：简单工厂模式的核心，负责根据传入的参数">
-<meta property="og:updated_time" content="2017-06-25T13:02:54.000Z">
+<meta property="og:updated_time" content="2017-06-27T09:57:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之工厂模式">
 <meta name="twitter:description" content="概念工厂（比如，OperationFactory）抽象产品（比如，Operation）具体产品（比如，OperationAdd） 简单工厂定义：“专门定义一个类来负责创建其他类的实例，被创建的实例常常具有共同的父类。 　　实际上就是由一个工厂类，根据传入的参数，动态的决定创建出哪一个产品类的实例。角色：1.工厂类角色（比如，OperationFactory）：简单工厂模式的核心，负责根据传入的参数">
@@ -332,7 +332,7 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">FactoryBase* facBase;</div><div class="line"><span class="keyword">if</span> ([strOperation isEqualToString:<span class="string">@"+"</span>]) &#123;</div><div class="line">    facBase = [[AddFactoy alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"-"</span>])&#123;</div><div class="line">    facBase = [[SubFactory alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"*"</span>])&#123;</div><div class="line">    facBase = [[MulFactory alloc] init];</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>([strOperation isEqualToString:<span class="string">@"/"</span>])&#123;</div><div class="line">    facBase = [[DivFactory alloc] init];</div><div class="line">&#125;    </div><div class="line">Operation* oper;</div><div class="line">oper = [facBase createOperate];</div><div class="line">oper.firstNum = [strFirstNum doubleValue];</div><div class="line">oper.secondNum = [strSecondNum doubleValue];</div><div class="line"><span class="keyword">self</span>.resultTextField.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>,[oper getResult]];</div></pre></td></tr></table></figure>
 <h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1><p><strong>定义</strong>：“定义创建对象的接口，让子类决定实例化哪一个类。工厂方法使得一个类的实例化延迟到其子类。”</p>
 <p>一个工厂，通常不能只产一种产品，可能需要产出一系列产品，这时就需要使用抽象工厂<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// id&lt;AbstractFactory&gt; factory = [[HTML5Factory alloc] init];</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractFactory&gt; factory = [[OWCFactory alloc] init];</div><div class="line"></div><div class="line"><span class="comment">// 产品1</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractLine&gt; line = [factory createLine];</div><div class="line"></div><div class="line"><span class="comment">// 产品2</span></div><div class="line"><span class="keyword">id</span>&lt;AbstractPie&gt; pie = [factory createPie];</div><div class="line"></div><div class="line">[line drawLine];</div><div class="line">[pie drawPie];</div></pre></td></tr></table></figure></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://blog.csdn.net/developer_zhang/article/details/19563323" target="_blank" rel="external">设计模式深入学习IOS版（2）简单工厂模式</a><br><a href="http://www.cnblogs.com/eagle927183/p/3479644.html" target="_blank" rel="external">IOS设计模式浅析之抽象工厂模式(Abstract Factory)</a><br><a href="http://www.jianshu.com/p/dfddc7739bd3" target="_blank" rel="external">iOS常用的设计模式</a></p>
+<p>参考<br><a href="http://blog.csdn.net/developer_zhang/article/details/19563323" target="_blank" rel="external">设计模式深入学习IOS版（2）简单工厂模式</a><br><a href="http://www.cnblogs.com/eagle927183/p/3479644.html" target="_blank" rel="external">IOS设计模式浅析之抽象工厂模式(Abstract Factory)</a><br><a href="http://www.jianshu.com/p/dfddc7739bd3" target="_blank" rel="external">iOS常用的设计模式</a></p>
 
       
     </div>
@@ -472,7 +472,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -507,7 +507,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单工厂"><span class="nav-number">2.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂方法"><span class="nav-number">3.</span> <span class="nav-text">工厂方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象工厂"><span class="nav-number">4.</span> <span class="nav-text">抽象工厂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单工厂"><span class="nav-number">2.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂方法"><span class="nav-number">3.</span> <span class="nav-text">工厂方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象工厂"><span class="nav-number">4.</span> <span class="nav-text">抽象工厂</span></a></li></ol></div>
             
 
           </div>
