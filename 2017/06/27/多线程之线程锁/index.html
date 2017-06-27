@@ -1,0 +1,684 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="概念锁是最常用的同步工具。一段代码段在同一个时间只能允许被一个线程访问，比如一个线程A进入加锁代码之后由于已经加锁，另一个线程B就无法访问，只有等待前一个线程A执行完加锁代码后解锁，B线程才能访问加锁代码。不要将过多的其他操作代码放到里面，否则一个线程执行的时候另一个线程就一直在等待，就无法发挥多线程的作用了。 NSLock1234567891011121314151617181920212223">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多线程之线程锁">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/多线程之线程锁/index.html">
+<meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
+<meta property="og:description" content="概念锁是最常用的同步工具。一段代码段在同一个时间只能允许被一个线程访问，比如一个线程A进入加锁代码之后由于已经加锁，另一个线程B就无法访问，只有等待前一个线程A执行完加锁代码后解锁，B线程才能访问加锁代码。不要将过多的其他操作代码放到里面，否则一个线程执行的时候另一个线程就一直在等待，就无法发挥多线程的作用了。 NSLock1234567891011121314151617181920212223">
+<meta property="og:updated_time" content="2017-06-27T06:09:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多线程之线程锁">
+<meta name="twitter:description" content="概念锁是最常用的同步工具。一段代码段在同一个时间只能允许被一个线程访问，比如一个线程A进入加锁代码之后由于已经加锁，另一个线程B就无法访问，只有等待前一个线程A执行完加锁代码后解锁，B线程才能访问加锁代码。不要将过多的其他操作代码放到里面，否则一个线程执行的时候另一个线程就一直在等待，就无法发挥多线程的作用了。 NSLock1234567891011121314151617181920212223">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/27/多线程之线程锁/"/>
+
+
+
+
+
+  <title>多线程之线程锁 | ZhangRuixiang's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZhangRuixiang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/多线程之线程锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhangRuixiang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://zhangruixiang.github.io/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangRuixiang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">多线程之线程锁</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T14:06:44+08:00">
+                2017-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>锁是最常用的同步工具。一段代码段在同一个时间只能允许被一个线程访问，比如一个线程A进入加锁代码之后由于已经加锁，另一个线程B就无法访问，只有等待前一个线程A执行完加锁代码后解锁，B线程才能访问加锁代码。<br>不要将过多的其他操作代码放到里面，否则一个线程执行的时候另一个线程就一直在等待，就无法发挥多线程的作用了。</p>
+<h4 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//主线程中</span></div><div class="line">    <span class="built_in">NSLock</span> *lock = [[<span class="built_in">NSLock</span> alloc] init];</div><div class="line"></div><div class="line">    <span class="comment">//线程1</span></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        [lock lock];</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"线程1"</span>);</div><div class="line">        sleep(<span class="number">2</span>);</div><div class="line">        [lock unlock];</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"线程1解锁成功"</span>);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">//线程2</span></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        sleep(<span class="number">1</span>);<span class="comment">//以保证让线程2的代码后执行</span></div><div class="line">        [lock lock];</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"线程2"</span>);</div><div class="line">        [lock unlock];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">14</span>:<span class="number">23</span>:<span class="number">09.659</span> ThreadLockControlDemo[<span class="number">1754</span>:<span class="number">129663</span>] 线程<span class="number">1</span></div><div class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">14</span>:<span class="number">23</span>:<span class="number">11.663</span> ThreadLockControlDemo[<span class="number">1754</span>:<span class="number">129663</span>] 线程<span class="number">1</span>解锁成功</div><div class="line"><span class="number">2016</span><span class="number">-08</span><span class="number">-19</span> <span class="number">14</span>:<span class="number">23</span>:<span class="number">11.665</span> ThreadLockControlDemo[<span class="number">1754</span>:<span class="number">129659</span>] 线程<span class="number">2</span></div></pre></td></tr></table></figure>
+<p>NSLock 加锁失败，会阻塞线程。但是 tryLock 并不会阻塞线程。</p>
+<h4 id="synchronized代码块"><a href="#synchronized代码块" class="headerlink" title="@synchronized代码块"></a>@synchronized代码块</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSObject</span> *obj = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line"></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        <span class="keyword">@synchronized</span>(obj) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作1 开始"</span>);</div><div class="line">            sleep(<span class="number">3</span>);</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作1 结束"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        sleep(<span class="number">1</span>);</div><div class="line">        <span class="keyword">@synchronized</span>(obj) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作2"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">上面结果的执行结果为：</div><div class="line"></div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">35.747</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">580107</span>] 需要线程同步的操作<span class="number">1</span> 开始</div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">38.748</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">580107</span>] 需要线程同步的操作<span class="number">1</span> 结束</div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">38.749</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">580118</span>] 需要线程同步的操作<span class="number">2</span></div></pre></td></tr></table></figure>
+<p>@synchronized(obj)指令使用的obj为该锁的唯一标识，只有当标识相同时，才为满足互斥，如果线程2中的@synchronized(obj)改为@synchronized(self),刚线程2就不会被阻塞，@synchronized指令实现锁的优点就是我们不需要在代码中显式的创建锁对象，便可以实现锁的机制，但作为一种预防措施，@synchronized块会隐式的添加一个异常处理例程来保护代码，该处理例程会在异常抛出的时候自动的释放互斥锁。所以如果不想让隐式的异常处理例程带来额外的开销，你可以考虑使用锁对象。</p>
+<h4 id="条件信号量dispatch-semaphore"><a href="#条件信号量dispatch-semaphore" class="headerlink" title="条件信号量dispatch_semaphore"></a>条件信号量dispatch_semaphore</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">dispatch_semaphore_t signal = dispatch_semaphore_create(<span class="number">1</span>);</div><div class="line">    dispatch_time_t overTime = dispatch_time(DISPATCH_TIME_NOW, <span class="number">3</span> * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line"></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        dispatch_semaphore_wait(signal, overTime);</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作1 开始"</span>);</div><div class="line">            sleep(<span class="number">2</span>);</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作1 结束"</span>);</div><div class="line">        dispatch_semaphore_signal(signal);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</div><div class="line">        sleep(<span class="number">1</span>);</div><div class="line">        dispatch_semaphore_wait(signal, overTime);</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"需要线程同步的操作2"</span>);</div><div class="line">        dispatch_semaphore_signal(signal);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">52.324</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">579032</span>] 需要线程同步的操作<span class="number">1</span> 开始</div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">55.325</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">579032</span>] 需要线程同步的操作<span class="number">1</span> 结束</div><div class="line"><span class="number">2016</span><span class="number">-06</span><span class="number">-29</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">55.326</span> SafeMultiThread[<span class="number">35945</span>:<span class="number">579033</span>] 需要线程同步的操作<span class="number">2</span></div></pre></td></tr></table></figure>
+<p>dispatch_semaphore_tGCD中信号量，也可以解决资源抢占问题,支持信号通知和信号等待。每当发送一个信号通知，则信号量+1；每当发送一个等待信号时信号量-1,；如果信号量为0则信号会处于等待状态，直到信号量大于0开始执行。</p>
+<h4 id="条件锁NSConditionLock"><a href="#条件锁NSConditionLock" class="headerlink" title="条件锁NSConditionLock"></a>条件锁NSConditionLock</h4><p>NSConditionLock 可以称为条件锁，只有 condition 参数与初始化时候的 condition 相等，lock 才能正确进行加锁操作。而 unlockWithCondition: 并不是当 Condition 符合条件时才解锁，而是解锁之后，修改 Condition 的值，</p>
+<h4 id="条件锁NSCondition"><a href="#条件锁NSCondition" class="headerlink" title="条件锁NSCondition"></a>条件锁NSCondition</h4><p>NSCondition 的对象实际上作为一个锁和一个线程检查器，锁上之后其它线程也能上锁，而之后可以根据条件决定是否继续运行线程，即线程是否要进入 waiting 状态，经测试，NSCondition 并不会像上文的那些锁一样，先轮询，而是直接进入 waiting 状态，当其它线程中的该锁执行 signal 或者 broadcast 方法时，线程被唤醒，继续运行之后的方法。</p>
+<p>参考<br><a href="http://www.jianshu.com/p/938d68ed832c" target="_blank" rel="external">iOS中保证线程安全的几种方式与性能对比
+</a><br><a href="http://www.jianshu.com/p/35dd92bcfe8c" target="_blank" rel="external">iOS多线程-各种线程锁的简单介绍</a><br><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="external">深入理解 iOS 开发中的锁</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/27/多线程之基础/" rel="next" title="多线程之基础">
+                <i class="fa fa-chevron-left"></i> 多线程之基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/27/多线程之死锁/" rel="prev" title="多线程之死锁">
+                多线程之死锁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://zhangruixiang.github.io/uploads/avatar.jpeg"
+               alt="ZhangRuixiang" />
+          <p class="site-author-name" itemprop="name">ZhangRuixiang</p>
+           
+              <p class="site-description motion-element" itemprop="description">不为浮尘易匠心</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSLock"><span class="nav-number">2.</span> <span class="nav-text">NSLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized代码块"><span class="nav-number">3.</span> <span class="nav-text">@synchronized代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件信号量dispatch-semaphore"><span class="nav-number">4.</span> <span class="nav-text">条件信号量dispatch_semaphore</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件锁NSConditionLock"><span class="nav-number">5.</span> <span class="nav-text">条件锁NSConditionLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件锁NSCondition"><span class="nav-number">6.</span> <span class="nav-text">条件锁NSCondition</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhangRuixiang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

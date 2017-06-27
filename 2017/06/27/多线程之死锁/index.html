@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="iOS," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -93,19 +93,16 @@
 
 
 
-<meta name="description" content="概念两个对象相互持有，这样就会造成循环引用，如下图所示 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。 123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(">
-<meta name="keywords" content="iOS">
+<meta name="description" content="死锁场景1234567891011- (void)viewDidLoad &amp;#123;[super viewDidLoad];NSThread *thread = [NSThread currentThread];NSLog(@&quot;** 当前线程：%@ **&quot;,thread);dispatch_sync(dispatch_get_main_queue(), ^&amp;#123;NSThread *thre">
 <meta property="og:type" content="article">
-<meta property="og:title" content="循环引用">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/循环引用/index.html">
+<meta property="og:title" content="多线程之死锁">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/多线程之死锁/index.html">
 <meta property="og:site_name" content="ZhangRuixiang&#39;s Blog">
-<meta property="og:description" content="概念两个对象相互持有，这样就会造成循环引用，如下图所示 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。 123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/809937-71bdfcd1fcd90ab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-06-25T13:04:38.000Z">
+<meta property="og:description" content="死锁场景1234567891011- (void)viewDidLoad &amp;#123;[super viewDidLoad];NSThread *thread = [NSThread currentThread];NSLog(@&quot;** 当前线程：%@ **&quot;,thread);dispatch_sync(dispatch_get_main_queue(), ^&amp;#123;NSThread *thre">
+<meta property="og:updated_time" content="2017-06-27T06:07:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="循环引用">
-<meta name="twitter:description" content="概念两个对象相互持有，这样就会造成循环引用，如下图所示 注意只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。 123456__block __weak __typeof(_currentModel) weakModel = _currentModel;self.aView = [[HYBAView alloc] initWithBlock:^(">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/809937-71bdfcd1fcd90ab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="多线程之死锁">
+<meta name="twitter:description" content="死锁场景1234567891011- (void)viewDidLoad &amp;#123;[super viewDidLoad];NSThread *thread = [NSThread currentThread];NSLog(@&quot;** 当前线程：%@ **&quot;,thread);dispatch_sync(dispatch_get_main_queue(), ^&amp;#123;NSThread *thre">
 
 
 
@@ -133,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/循环引用/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/27/多线程之死锁/"/>
 
 
 
 
 
-  <title>循环引用 | ZhangRuixiang's Blog</title>
+  <title>多线程之死锁 | ZhangRuixiang's Blog</title>
   
 
 
@@ -258,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/循环引用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/多线程之死锁/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZhangRuixiang">
@@ -275,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">循环引用</h1>
+          <h1 class="post-title" itemprop="name headline">多线程之死锁</h1>
         
 
         <div class="post-meta">
@@ -287,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T21:03:51+08:00">
-                2017-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T14:06:59+08:00">
+                2017-06-27
               </time>
             
 
@@ -322,12 +319,13 @@
       
 
       
-        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>两个对象相互持有，这样就会造成循环引用，如下图所示<br><img src="http://upload-images.jianshu.io/upload_images/809937-71bdfcd1fcd90ab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>只要 block中用到了对象的属性或者函数，block就会持有该对象而不是该对象中的某个属性或者函数。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">__block __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(_currentModel) weakModel = _currentModel;</div><div class="line"><span class="keyword">self</span>.aView = [[HYBAView alloc] initWithBlock:^(<span class="keyword">id</span> model) &#123;</div><div class="line">  <span class="comment">// 假设要更新model</span></div><div class="line">  weakModel = model;</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<p><strong>疑惑</strong>：<code>_currentModel</code> 本身就是实例变量，这里为什么还要加上<code>__block</code> ？</p>
-<p><strong>猜测</strong>：<code>__typeof</code>之后，编译器无法识别weakModel是否是实例变量，编译器把它当做是局部变量了，所以要加上 <code>__block</code></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.jianshu.com/p/492be28d63c4" target="_blank" rel="external">iOS中block的循环引用问题</a></p>
+        <h1 id="死锁场景"><a href="#死锁场景" class="headerlink" title="死锁场景"></a>死锁场景</h1><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</div><div class="line">[<span class="keyword">super</span> viewDidLoad];</div><div class="line"></div><div class="line"><span class="built_in">NSThread</span> *thread = [<span class="built_in">NSThread</span> currentThread];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"** 当前线程：%@ **"</span>,thread);</div><div class="line"></div><div class="line"><span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line"><span class="built_in">NSThread</span> *thread = [<span class="built_in">NSThread</span> currentThread];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"** 主线程：%@ **"</span>,thread);</div><div class="line">&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h1><p>一共有 2 个任务，<code>任务 A</code> 是把<code>任务 B</code> 添加到主线程，并且要等到<code>任务 B</code> 执行完毕。但是<code>任务 A</code> 正在占用主线程，所以<code>任务 B</code> 无法执行。所以<code>任务 A</code> 也无法完成。</p>
+<h1 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h1><p>1.异步调度 dispatch_async : 把一个任务添加到某queue后就马上离开,而不管任务在那个queue里的执行状态</p>
+<p>2.同步调度 dispatch_sync : 把一个任务添加到某queue后,等这个任务完成,调用线程才继续执行.</p>
+<p>所以,异步调度和同步调度的区别不在于被添加的任务怎样执行,而在于调用线程是否等待任务执行完。</p>
+<p><strong>注意</strong>：串行 queue 每次只能执行一个任务，可以使用它来代替锁，保护共享资源或可变的数据结构，串行queue确保任务按可预测的顺序执行(这是比锁好的地方)</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://www.jianshu.com/p/7f4ea1400365" target="_blank" rel="external">关于GCD中的串行，并行，同步，异步</a></p>
 
       
     </div>
@@ -355,12 +353,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/iOS/" rel="tag"># iOS</a>
-          
-        </div>
-      
 
       
       
@@ -370,8 +362,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/设计模式之工厂模式/" rel="next" title="设计模式之工厂模式">
-                <i class="fa fa-chevron-left"></i> 设计模式之工厂模式
+              <a href="/2017/06/27/多线程之线程锁/" rel="next" title="多线程之线程锁">
+                <i class="fa fa-chevron-left"></i> 多线程之线程锁
               </a>
             
           </div>
@@ -379,10 +371,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/25/iOS高精度数值计算/" rel="prev" title="iOS高精度数值计算">
-                iOS高精度数值计算 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -502,7 +490,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#死锁场景"><span class="nav-number">1.</span> <span class="nav-text">死锁场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解释"><span class="nav-number">2.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#同步和异步"><span class="nav-number">3.</span> <span class="nav-text">同步和异步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考："><span class="nav-number">3.1.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></div>
             
 
           </div>
